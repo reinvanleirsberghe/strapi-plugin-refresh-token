@@ -26,7 +26,7 @@ yarn add @redon2inc/strapi-plugin-refresh-token
 
 This component relies on extending the `user-permissions` types. Extend it by adding the following to `./src/extensions/user-permissions/content-types/user/schema.json`
 
-```json
+```javascript
 {
   // .. rest of code
   "refresh_tokens": {
@@ -51,7 +51,7 @@ Modify your plugins file  `config/plugin.ts` to have the following:
           jwt: {
             /* the following  parameter will be used to generate:
              - regular tokens with username and password
-             - refreshed tokens when using the refreshToken
+             - refreshed tokens when using the refreshToken API
             */
             expiresIn: '2h', // This value should be lower than the refreshTokenExpiresIn below.
           },
@@ -78,11 +78,11 @@ when calling `POST`:`/api/auth/local` include the `requestRefresh` parameter:
 }
 ```
 The API will respond with the following:
-```json
+```javascript
 {
   "jwt":"token...",
   "user": { /* user object */ },
-  "refreshToken": "newRefreshToken"
+  "refreshToken": "RefreshToken..."
 }
 ```
 
@@ -90,13 +90,13 @@ to request a new access token use the following:
 `POST`:`/api/auth/local/refresh` with the following payload:
 ```json
 {
-  "refreshToken": "RefreshToken",
+  "refreshToken": "RefreshToken...",
 }
 ```
-if the token is valid, it will return:
+if the Refresh token is valid, the API will return
 ```json
 {
-  "jwt": "NewAccessToken",
+  "jwt": "NewAccessToken..",
 }
 ```
 

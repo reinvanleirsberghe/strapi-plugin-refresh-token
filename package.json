@@ -75,6 +75,10 @@
     "name": "refresh-token",
     "displayName": "Strapi Plugin Refresh Token",
     "description": "Plugin for Strapi 5 to provide refresh token functionality. "
-  }
-  
+  },
+  "main": "index.js",
+  "bugs": {
+    "url": "https://github.com/redon2/strapi-plugin-refresh-token/issues"
+  },
+  "homepage": "https://github.com/redon2/strapi-plugin-refresh-token#readme"
 }
