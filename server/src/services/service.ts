@@ -41,7 +41,7 @@ const service = ({ strapi }: { strapi: Core.Strapi }) => ({
       await strapi.query('plugin::refresh-token.token').delete({
         where: { id: token.id },
       });
-      console.log(`Deleted token with id: ${token.id}`);
+      // console.log(`Deleted token with id: ${token.id}`);
     }
   },
   async create(user, request) {

@@ -4,6 +4,7 @@ export default {
     refreshTokenSecret : 'SuperSecretKey',
     requestRefreshOnAll : false,
     refreshTokenExpiresIn : '1d',
+    cookieResponse: false,
   },
   validator() {},
 };

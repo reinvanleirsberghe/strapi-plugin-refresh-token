@@ -19,6 +19,7 @@ describe('Auth Middleware', () => {
 
   beforeEach(() => {
     // Mocking Strapi dependencies
+    process.env.PRODUCTION_URL = 'https://redon2.ca/'; //awesome ppl 
     strapiMock = {
       config: {
         get: jest.fn().mockReturnValue({
@@ -72,10 +73,13 @@ describe('Auth Middleware', () => {
       },
       send: jest.fn(),
       status: 200,
+      cookies: {
+        set: jest.fn(),
+      }
     };
   });
 
-  it('should add refresh token to response body on successful /api/auth/local', async () => {
+  it('Generate refreshToken in body /api/auth/local', async () => {
     const middleware = auth({ strapi: strapiMock });
 
     await middleware(ctxMock, () => Promise.resolve());
@@ -88,6 +92,49 @@ describe('Auth Middleware', () => {
       'testSecretKey',
       { expiresIn: '30d' }
     );
+  });
+  it.each([
+    { refreshTokenExpiresIn: '1h' },
+    { refreshTokenExpiresIn: '15m' },
+    { refreshTokenExpiresIn: '7d' },
+  ])('Generate refreshToken in cookie with refreshTokenExpiresIn: %o /api/auth/local', async ({ refreshTokenExpiresIn }) => {
+    strapiMock.config.get.mockReturnValueOnce({
+      ...strapiMock.config.get(),
+      cookieResponse: true,
+      refreshTokenExpiresIn
+    });
+  
+    const middleware = auth({ strapi: strapiMock });
+  
+    await middleware(ctxMock, () => Promise.resolve());
+  
+    // Assert that a refresh token is added to response body
+    expect(ctxMock.cookies.set).toHaveBeenCalledWith(
+      'refreshToken',
+      expect.any(String),
+      expect.objectContaining({
+        httpOnly: true,
+        secure: expect.any(Boolean),
+        maxAge: expect.any(Number),
+        domain: expect.any(String),
+      })
+    );
+    expect(strapiMock.plugin).toHaveBeenCalledWith(expect.stringContaining(PLUGIN_ID));
+    expect(jwt.sign).toHaveBeenCalledWith(
+      expect.objectContaining({ userId: 1, secret: 'testDocumentId' }),
+      'testSecretKey',
+      { expiresIn: refreshTokenExpiresIn }
+    );
+  });
+  it('Fail refresh to bad config', async () => {
+    strapiMock.config.get.mockReturnValueOnce({
+      ...strapiMock.config.get(),
+      cookieResponse: true,
+      refreshTokenExpiresIn: '1t', //bad param
+    });
+    const middleware = auth({ strapi: strapiMock });
+
+    await expect(middleware(ctxMock, () => Promise.resolve())).rejects.toThrow('Invalid tokenExpires format. Use formats like "30d", "1h", "15m".');
   });
 
   it('should send a new JWT on valid /api/auth/local/refresh', async () => {

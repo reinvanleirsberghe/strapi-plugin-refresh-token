@@ -24,6 +24,12 @@ yarn add @redon2inc/strapi-plugin-refresh-token
 
 ## Config
 
+You will need to set the following environment variables:
+```
+ PRODUCTION_URL=value # used for cookie security if enabled
+ REFRESH_JWT_SECRET=string 
+ ```
+
 This component relies on extending the `user-permissions` types. Extend it by adding the following to `./src/extensions/user-permissions/content-types/user/schema.json`
 
 ```javascript
@@ -62,6 +68,7 @@ Modify your plugins file  `config/plugin.ts` to have the following:
       refreshTokenExpiresIn: '30d', // this value should be higher than the jwt.expiresIn
       requestRefreshOnAll: false, // automatically send a refresh token in all login requests.
       refreshTokenSecret: env('REFRESH_JWT_SECRET') || 'SomethingSecret',
+      cookieResponse: false // if set to true, the refresh token will be sent in a cookie
     },
   }
 ```
@@ -101,5 +108,5 @@ if the Refresh token is valid, the API will return
 ```
 
 ## TODO:
-- Currently the tokens do not get removed from the DB on usage. Only if they are expired. 
+- Currently the tokens do not get removed from the DB on usage. They are cleaned when a new token is requested and the old ones have expired.
 - Expose API so user can clear all sessions on their own. 
