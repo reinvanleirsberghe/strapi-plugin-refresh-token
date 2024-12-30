@@ -8,7 +8,7 @@
     "type": "git",
     "directory": "."
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "keywords": [],
   "type": "commonjs",
   "exports": {
@@ -41,8 +41,6 @@
     "test:ts:back": "run -T tsc -p server/tsconfig.json"
   },
   "dependencies": {
-    "@strapi/design-system": "^2.0.0-rc.14",
-    "@strapi/icons": "^2.0.0-rc.14",
     "react-intl": "^7.0.1"
   },
   "devDependencies": {

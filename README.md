@@ -33,8 +33,9 @@ You will need to set the following environment variables:
 This component relies on extending the `user-permissions` types. Extend it by adding the following to `./src/extensions/user-permissions/content-types/user/schema.json`
 
 ```javascript
-{
-  // .. rest of code
+// .. rest of schema
+attributes:{
+  // .. rest of attributes
   "refresh_tokens": {
       "type": "relation",
       "relation": "oneToMany",
@@ -44,6 +45,7 @@ This component relies on extending the `user-permissions` types. Extend it by ad
       "configurable": false
     }
 }
+// rest of code
 ```
 
 Modify your plugins file  `config/plugin.ts` to have the following:
