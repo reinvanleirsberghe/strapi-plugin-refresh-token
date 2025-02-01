@@ -1,14 +1,14 @@
 {
-  "name": "@redon2inc/strapi-plugin-refresh-token",
+  "name": "@revale/strapi-plugin-refresh-token",
   "description": "Plugin for Strapi 5 to provide refresh token functionality.",
   "license": "MIT",
-  "author": "Redon2 Soltuons <info@redon2.ca>",
+  "author": "Rein Van Leirsberghe",
   "repository": {
-    "url": "git+https://github.com/redon2/strapi-plugin-refresh-token.git",
+    "url": "git+https://github.com/reinvanleirsberghe/strapi-plugin-refresh-token.git",
     "type": "git",
     "directory": "."
   },
-  "version": "0.1.2",
+  "version": "0.0.6",
   "keywords": [],
   "type": "commonjs",
   "exports": {
