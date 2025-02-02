@@ -68,6 +68,7 @@ function auth({ strapi }) {
         ctx.request.path.includes('/api/auth/apple/callback'))
     ) {
       const requestRefresh = true;
+
       if (ctx.response.body && ctx.response.message === 'OK' && requestRefresh) {
         const refreshEntry = await strapi
           .plugin(PLUGIN_ID)
